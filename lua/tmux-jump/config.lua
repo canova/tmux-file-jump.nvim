@@ -11,6 +11,8 @@ local scripts_dir = get_current_file_path() .. "/../../scripts/"
 ---@class TmuxJump.Config
 local defaults = {
   script_path = scripts_dir .. "capture.sh",
+  -- It can be "telescope" or "fzf-lua".
+  viewer = "telescope",
 }
 
 ---@class TmuxJump.Config
