@@ -1,5 +1,6 @@
 local Config = require("tmux-jump.config")
 local File = require("tmux-jump.file")
+local Log = require("tmux-jump.log")
 
 local M = {}
 
@@ -8,7 +9,7 @@ local function open_fzf_lua(list)
   local status, config, fzf_lua
   status, config = pcall(require, "fzf-lua.config")
   if not status then
-    vim.api.nvim_echo({ { "tmux-jump.nvim: fzf-lua not found", "WarningMsg" } }, true, {})
+    Log.warn("fzf-lua not found")
     return
   end
 
@@ -23,13 +24,13 @@ local function open_fzf_lua(list)
 
   status, fzf_lua = pcall(require, "fzf-lua")
   if not status then
-    vim.api.nvim_echo({ { "tmux-jump.nvim: fzf-lua not found", "WarningMsg" } }, true, {})
+    Log.warn("fzf-lua not found")
     return
   end
   fzf_lua.fzf_exec(list, opts)
 end
 
--- Open the file list in fzf-lua.
+-- Open the file list in telescope.
 local function open_telescope(list)
   local pickers = require("telescope.pickers")
   local finders = require("telescope.finders")
@@ -68,7 +69,7 @@ function M.open_list(list)
   elseif Config.options.viewer == "fzf-lua" then
     open_fzf_lua(list)
   else
-    vim.api.nvim_echo({ { "tmux-jump.nvim: Unrecognized viewer option", "WarningMsg" } }, true, {})
+    Log.warn("Unrecognized viewer option")
   end
 end
 

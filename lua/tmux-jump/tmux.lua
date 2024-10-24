@@ -1,4 +1,5 @@
 local Config = require("tmux-jump.config")
+local Log = require("tmux-jump.log")
 
 local M = {}
 
@@ -30,13 +31,13 @@ end
 function M.get_paths(pattern)
   local is_in_tmux = vim.fn.has_key(vim.fn.environ(), "TMUX")
   if is_in_tmux == 0 then
-    vim.api.nvim_echo({ { "tmux-jump.nvim: Not in a tmux session", "WarningMsg" } }, true, {})
+    Log.warn("Not in a tmux session")
     return {}
   end
 
   local captured_files = vim.fn.system("bash " .. Config.options.script_path .. " " .. pattern)
   if captured_files == "" then
-    vim.api.nvim_echo({ { "tmux-jump.nvim: No file paths found", "WarningMsg" } }, true, {})
+    Log.warn("No file paths found")
     return {}
   end
 
