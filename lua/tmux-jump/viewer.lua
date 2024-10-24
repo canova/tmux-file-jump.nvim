@@ -32,9 +32,22 @@ end
 
 -- Open the file list in telescope.
 local function open_telescope(list)
-  local pickers = require("telescope.pickers")
-  local finders = require("telescope.finders")
-  local conf = require("telescope.config").values
+  local status, pickers, finders, conf
+  status, pickers = pcall(require, "telescope.pickers")
+  if not status then
+    Log.warn("telescope.pickers not found")
+    return
+  end
+  status, finders = pcall(require, "telescope.finders")
+  if not status then
+    Log.warn("telescope.finders not found")
+    return
+  end
+  status, conf = pcall(require, "telescope.config")
+  if not status then
+    Log.warn("telescope.config not found")
+    return
+  end
 
   local function entry_maker(line)
     local filepath, lnum, col = string.match(line, "(.-):(%d+):(%d+)")
@@ -56,8 +69,8 @@ local function open_telescope(list)
         results = list,
         entry_maker = entry_maker,
       }),
-      previewer = conf.grep_previewer({}),
-      sorter = conf.generic_sorter({}),
+      previewer = conf.values.grep_previewer({}),
+      sorter = conf.values.generic_sorter({}),
     })
     :find()
 end
