@@ -14,7 +14,8 @@ tmuxjump.vim.
 ## ⚡️ Requirements
 
 - Neovim >= 0.9.0 with Telescope, Neovim >= 0.8.0 for fzf-lua
-- Either Telescope or fzf-lua plugins.
+- Either [Telescope](https://github.com/nvim-telescope/telescope.nvim) or
+[fzf-lua](https://github.com/ibhagwan/fzf-lua).
 
 ## 📦 Installation
 
