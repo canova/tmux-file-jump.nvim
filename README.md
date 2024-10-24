@@ -26,6 +26,11 @@ lazy.nvim:
 ```lua
 {
   "canova/tmux-jump.nvim",
+  event = 'VeryLazy',
+  dependencies = {
+    'nvim-telescope/telescope.nvim',
+    -- 'ibhagwan/fzf-lua', -- Or fzf-lua if you prefer.
+  },
   config = function()
     local tmux_jump = require 'tmux-jump'
     tmux_jump.setup {}
