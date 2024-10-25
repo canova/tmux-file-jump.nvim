@@ -11,9 +11,8 @@ end
 
 -- Get the paths from tmux and list all of them in either telescope or fzf-lua
 function M.list_files(pattern)
-  if pattern == nil then
-    pattern = ""
-  end
+  pattern = pattern or {}
+
   local list = Tmux.get_paths(pattern)
   if #list == 0 then
     return
@@ -24,9 +23,7 @@ end
 
 -- Get the first (bottom first) path from tmux and directly jump to that file.
 function M.jump_first(pattern)
-  if pattern == nil then
-    pattern = ""
-  end
+  pattern = pattern or {}
 
   local list = Tmux.get_paths(pattern)
   if #list == 0 then
