@@ -34,7 +34,9 @@ lazy.nvim:
   },
   config = function()
     local tmux_jump = require 'tmux-jump'
-    tmux_jump.setup {}
+    tmux_jump.setup {
+      -- viewer = "fzf-lua" -- Uncomment for fzf-lua.
+    }
 
     -- Change your keymaps as you like.
     vim.keymap.set('n', '<leader>tl', tmux_jump.list_files, { desc = 'List all file paths in the other tmux panes' })
