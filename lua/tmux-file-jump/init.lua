@@ -1,7 +1,7 @@
-local Config = require("tmux-jump.config")
-local Viewer = require("tmux-jump.viewer")
-local File = require("tmux-jump.file")
-local Tmux = require("tmux-jump.tmux")
+local Config = require("tmux-file-jump.config")
+local Viewer = require("tmux-file-jump.viewer")
+local File = require("tmux-file-jump.file")
+local Tmux = require("tmux-file-jump.tmux")
 
 local M = {}
 
@@ -33,11 +33,11 @@ function M.jump_first(pattern)
   File.jump_to_file(list[1])
 end
 
-vim.api.nvim_create_user_command("TmuxJumpFiles", function(opts)
+vim.api.nvim_create_user_command("TmuxFileJump", function(opts)
   M.list_files(opts.args)
 end, { nargs = "*", desc = "List all file paths in the other tmux panes" })
 
-vim.api.nvim_create_user_command("TmuxJumpFirst", function(opts)
+vim.api.nvim_create_user_command("TmuxFileJumpFirst", function(opts)
   M.jump_first(opts.args)
 end, { nargs = "*", desc = "Go to the first (from bottom) file path in the other tmux panes" })
 

@@ -8,7 +8,7 @@ end
 
 local scripts_dir = get_current_file_path() .. "/../../scripts/"
 
----@class TmuxJump.Config
+---@class TmuxFileJump.Config
 local defaults = {
   -- script that captures the tmux pane file paths.
   script_path = scripts_dir .. "capture.sh",
@@ -16,7 +16,7 @@ local defaults = {
   viewer = "telescope",
 }
 
----@class TmuxJump.Config
+---@class TmuxFileJump.Config
 M.options = {}
 
 function M.setup(opts)

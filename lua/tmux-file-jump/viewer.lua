@@ -1,6 +1,6 @@
-local Config = require("tmux-jump.config")
-local File = require("tmux-jump.file")
-local Log = require("tmux-jump.log")
+local Config = require("tmux-file-jump.config")
+local File = require("tmux-file-jump.file")
+local Log = require("tmux-file-jump.log")
 
 local M = {}
 
@@ -14,7 +14,7 @@ local function open_fzf_lua(list)
   end
 
   local opts = config.normalize_opts({
-    prompt = "TmuxJump> ",
+    prompt = "TmuxFileJump> ",
     actions = {
       ["default"] = function(selected)
         File.jump_to_file(selected[1])
@@ -63,7 +63,7 @@ local function open_telescope(list)
 
   pickers
     .new({}, {
-      prompt_title = "TmuxJump",
+      prompt_title = "TmuxFileJump",
       __locations_input = true,
       finder = finders.new_table({
         results = list,

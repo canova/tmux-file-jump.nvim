@@ -1,5 +1,5 @@
-local Config = require("tmux-jump.config")
-local Log = require("tmux-jump.log")
+local Config = require("tmux-file-jump.config")
+local Log = require("tmux-file-jump.log")
 
 local M = {}
 
