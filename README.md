@@ -77,3 +77,16 @@ tmux-file-jump.nvim comes with the following defaults:
   viewer = "telescope",
 }
 ```
+
+## 🚀 Usage
+
+If you've set up the keymaps as shown in the installation section, you can
+press `<leader>tl` to open either Telescope or fzf-lua with a list of all
+available files to jump to. You can also press `<leader>tj` to directly open
+the most recently mentioned file in Neovim.
+
+This plugin also offers user commands for more control. `:TmuxFileJump` works
+like `<leader>tl`, and `:TmuxFileJumpFirst` works like `<leader>tj`.
+Additionally, you can pass a filter pattern to narrow down the files. For
+example, use `:TmuxFileJump src/` to filter files containing "src/" or
+`:TmuxFileJump \.cpp` for files with the `.cpp` extension.
