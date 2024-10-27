@@ -3,7 +3,6 @@ local M = {}
 -- Take the file path with the line and column numbers and then navigate to that
 -- file and location.
 function M.jump_to_file(file_with_pos)
-  vim.print(file_with_pos)
   local list = vim.split(file_with_pos, ":")
   local file_name = list[1]
   if not vim.fn.filereadable(file_name) then
