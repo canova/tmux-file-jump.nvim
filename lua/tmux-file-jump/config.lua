@@ -12,7 +12,7 @@ local scripts_dir = get_current_file_path() .. "/../../scripts/"
 local defaults = {
   -- script that captures the tmux pane file paths.
   script_path = scripts_dir .. "capture.sh",
-  -- It can be "telescope" or "fzf-lua".
+  -- It can be "telescope", "fzf-lua", "qflist", or "loclist".
   viewer = "telescope",
 }
 
