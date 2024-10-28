@@ -12,21 +12,17 @@ local function open_fzf_lua(list)
     Log.warn("fzf-lua not found")
     return
   end
-
-  local opts = config.normalize_opts({
-    prompt = "TmuxFileJump> ",
-    actions = {
-      ["default"] = function(selected)
-        File.jump_to_file(selected[1])
-      end,
-    },
-  }, "files")
-
   status, fzf_lua = pcall(require, "fzf-lua")
   if not status then
     Log.warn("fzf-lua not found")
     return
   end
+
+  local opts = config.normalize_opts({
+    prompt = "TmuxFileJump> ",
+    actions = fzf_lua.defaults.actions.files,
+  }, "files")
+
   fzf_lua.fzf_exec(list, opts)
 end
 
