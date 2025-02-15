@@ -14,7 +14,7 @@ function capture_panes() {
       fi
     done
 
-    echo "$captured" | rg -oi "[a-zA-Z0-9_\-~\/]+\.\d*[da-zA-Z][a-zA-Z0-9]+[\:]\d+(?:[\:]\d+)?"  | cut -d' ' -f1 | rg "$pattern"
+    echo "$captured" | rg -oi "[a-zA-Z0-9_\-~\/]+(?:\.[a-zA-Z0-9_\-~]+)+\:\d+(?:\:\d+)?" | cut -d' ' -f1 | rg "$pattern"
 }
 
 capture_panes
