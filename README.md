@@ -71,8 +71,8 @@ tmux-file-jump.nvim comes with the following defaults:
 
 ```lua
 {
-  -- script that captures the tmux pane file paths.
-  script_path = scripts_dir .. "capture.sh",
+  -- Regular expression that's being used for capturing file paths.
+  regex = "[a-zA-Z0-9_\\-~\\/]+(?:\\.[a-zA-Z0-9_\\-~]+)+\\:\\d+(?:\\:\\d+)?",
   -- It can be "telescope", "fzf-lua", "qflist", or "loclist".
   viewer = "telescope",
 }

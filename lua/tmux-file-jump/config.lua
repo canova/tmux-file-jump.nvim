@@ -1,17 +1,9 @@
 local M = {}
 
-local function get_current_file_path()
-  -- Get the current file's path
-  local script_path = debug.getinfo(1).source:sub(2) -- Remove the leading '@'
-  return vim.fn.fnamemodify(script_path, ":p:h")
-end
-
-local scripts_dir = get_current_file_path() .. "/../../scripts/"
-
 ---@class TmuxFileJump.Config
 local defaults = {
-  -- script that captures the tmux pane file paths.
-  script_path = scripts_dir .. "capture.sh",
+  -- Regular expression that's being used for capturing file paths.
+  regex = "[a-zA-Z0-9_\\-~\\/]+(?:\\.[a-zA-Z0-9_\\-~]+)+\\:\\d+(?:\\:\\d+)?",
   -- It can be "telescope", "fzf-lua", "qflist", or "loclist".
   viewer = "telescope",
 }
