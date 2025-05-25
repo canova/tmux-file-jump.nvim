@@ -35,14 +35,17 @@ function M.get_paths(pattern)
     return {}
   end
 
-  local captured_files = M.capture_panes(pattern)
-  if #captured_files == 0 then
+  local captured_paths = M.capture_panes(pattern)
+  if #captured_paths == 0 then
     Log.warn("No file paths found")
     return {}
   end
 
-  local list = vim.fn.reverse(vim.fn.uniq(strip_prefix_from_list(captured_files, { "a/", "b/" })))
-  return list
+  local unique_paths = vim.fn.uniq(strip_prefix_from_list(captured_paths, { "a/", "b/" }))
+  if type(unique_paths) ~= "table" then
+    return {}
+  end
+  return vim.fn.reverse(unique_paths)
 end
 
 -- Function to capture tmux panes and extract file paths matching a pattern
