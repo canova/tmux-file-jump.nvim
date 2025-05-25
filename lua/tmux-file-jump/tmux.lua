@@ -35,16 +35,46 @@ function M.get_paths(pattern)
     return {}
   end
 
-  local captured_files = vim.fn.system("bash " .. Config.options.script_path .. " " .. pattern)
-  if captured_files == "" then
+  local captured_files = M.capture_panes(pattern)
+  if #captured_files == 0 then
     Log.warn("No file paths found")
     return {}
   end
 
-  local list = vim.fn.reverse(
-    vim.fn.uniq(strip_prefix_from_list(vim.split(captured_files, "\n", { trimempty = true }), { "a/", "b/" }))
-  )
+  local list = vim.fn.reverse(vim.fn.uniq(strip_prefix_from_list(captured_files, { "a/", "b/" })))
   return list
+end
+
+-- Function to capture tmux panes and extract file paths matching a pattern
+function M.capture_panes(pattern)
+  local is_in_tmux = vim.fn.has_key(vim.fn.environ(), "TMUX")
+  if is_in_tmux == 0 then
+    Log.warn("Not in a tmux session")
+    return {}
+  end
+
+  -- Get the current tmux pane index
+  local current_pane = vim.fn.system("tmux display -pt \"${TMUX_PANE:?}\" '#{pane_index}'"):gsub("%s+", "")
+
+  -- List all tmux panes
+  local panes = vim.fn.systemlist('tmux list-panes -F "#{pane_index}"')
+  local captured = {}
+
+  -- Iterate over all panes and capture content from non-current panes
+  for _, pane in ipairs(panes) do
+    if pane ~= current_pane then
+      local pane_content = vim.fn.system("tmux capture-pane -pJS - -t " .. pane)
+      local filtered_content =
+        vim.fn.system("echo " .. vim.fn.shellescape(pane_content) .. " | rg -oi '" .. Config.options.regex .. "'")
+      for file_path in filtered_content:gmatch("[^\n]+") do
+        if file_path:match(pattern) then
+          table.insert(captured, file_path)
+        end
+      end
+    end
+  end
+
+  return captured
 end
 
 return M
