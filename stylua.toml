@@ -1,2 +1,12 @@
 indent_type = "Spaces"
 indent_width = 2
+
+[describe]
+any = true
+
+[it]
+any = true
+
+[assert]
+any = true
+
