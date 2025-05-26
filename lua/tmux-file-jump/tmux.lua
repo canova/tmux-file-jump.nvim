@@ -63,9 +63,18 @@ function M.capture_panes(pattern)
 
   -- Get the current tmux pane index
   local current_pane = vim.fn.system("tmux display -pt \"${TMUX_PANE:?}\" '#{pane_index}'"):gsub("%s+", "")
+  if vim.v.shell_error ~= 0 then
+    Log.warn("Failed to get current tmux pane index.")
+    return {}
+  end
 
   -- List all tmux panes
   local panes = vim.fn.systemlist('tmux list-panes -F "#{pane_index}"')
+  if vim.v.shell_error ~= 0 then
+    Log.error("Failed to list tmux panes.")
+    return {}
+  end
+
   local captured = {}
 
   -- Escape the regex pattern for rg
