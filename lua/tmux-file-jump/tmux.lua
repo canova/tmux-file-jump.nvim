@@ -56,6 +56,11 @@ function M.capture_panes(pattern)
     return {}
   end
 
+  if vim.fn.executable("rg") == 0 then
+    vim.notify("ripgrep (rg) is required but not found.", vim.log.levels.ERROR)
+    return {}
+  end
+
   -- Get the current tmux pane index
   local current_pane = vim.fn.system("tmux display -pt \"${TMUX_PANE:?}\" '#{pane_index}'"):gsub("%s+", "")
 
