@@ -68,12 +68,31 @@ function M.capture_panes(pattern)
   local panes = vim.fn.systemlist('tmux list-panes -F "#{pane_index}"')
   local captured = {}
 
+  -- Escape the regex pattern for rg
+  -- Note: If Config.options.regex can contain single quotes,
+  -- you might need a more robust escaping strategy or ensure your regex
+  -- does not contain them if passed directly in single quotes.
+  -- For most cases, shellescape is sufficient if rg expects a literal string.
+  local escaped_rg_regex = vim.fn.shellescape(Config.options.regex)
+
   -- Iterate over all panes and capture content from non-current panes
-  for _, pane in ipairs(panes) do
-    if pane ~= current_pane then
-      local pane_content = vim.fn.system("tmux capture-pane -pJS - -t " .. pane)
-      local filtered_content =
-        vim.fn.system("echo " .. vim.fn.shellescape(pane_content) .. " | rg -oi '" .. Config.options.regex .. "'")
+  for _, pane_index in ipairs(panes) do
+    if pane_index ~= current_pane then
+      -- Capture pane content directly and pipe to rg
+      -- Use 'tmux capture-pane -pJS - -t <pane_index>' to output to stdout
+      -- and pipe that directly to rg's stdin.
+      local cmd = string.format(
+        "tmux capture-pane -pJS - -t %s | rg -oi %s",
+        vim.fn.shellescape(pane_index),
+        escaped_rg_regex
+      )
+
+      local filtered_content = vim.fn.system(cmd)
+      if vim.v.shell_error ~= 0 then
+        Log.warn(string.format("Failed to capture or filter content for pane %s: %s", pane_index, vim.v.shell_error))
+        -- Continue to next pane, don't return early
+      end
+
       for file_path in filtered_content:gmatch("[^\n]+") do
         if file_path:match(pattern) then
           table.insert(captured, file_path)
